@@ -116,6 +116,7 @@
             background: url('Images/premium_car-reservations.avif') no-repeat center center fixed;
             background-size: cover;
             position: relative;
+            overflow-x: hidden;
         }
         body::before {
             content: "";
@@ -325,6 +326,93 @@
             .trust-badge {
                 min-width: 180px;
                 width: 90%;
+            }
+            .floating-reviews,
+            .circle-sticker,
+            .circle-sticker + div[style*="text-align:center"] {
+                display: none;
+            }
+            body {
+                background-attachment: scroll;
+            }
+            .main-content {
+                padding-top: 1.25rem;
+                padding-left: 0.9rem;
+                padding-right: 0.9rem;
+            }
+            .logo-link {
+                margin: 0.75rem auto 0.5rem auto;
+            }
+            .logo-img {
+                width: 88px;
+                height: 60px;
+            }
+            .section_header {
+                font-size: 2rem;
+                letter-spacing: 0.05em;
+                margin-bottom: 0.85rem;
+            }
+            .section_description {
+                font-size: 1rem;
+                line-height: 1.5;
+                margin-bottom: 1.35rem;
+            }
+            .reservation-bar-container {
+                margin-top: 1rem;
+                padding: 0;
+            }
+            .reservation-bar {
+                padding: 0.9rem;
+                border-radius: 1.2rem;
+                gap: 0.7rem;
+            }
+            .reservation-field {
+                width: 100%;
+                min-width: 0;
+                flex: 1 1 100%;
+                padding: 0.7rem 0.85rem;
+            }
+            .reservation-label-input label {
+                font-size: 0.86rem;
+            }
+            .reservation-label-input input {
+                font-size: 1rem;
+            }
+            .reservation-btn {
+                width: 100%;
+                min-width: 0;
+                margin-left: 0;
+                padding: 0.95rem 1rem;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                padding-top: 0.9rem;
+                padding-left: 0.7rem;
+                padding-right: 0.7rem;
+            }
+            .section_header {
+                font-size: 1.7rem;
+            }
+            .section_description {
+                font-size: 0.95rem;
+                margin-bottom: 1rem;
+            }
+            .trust-badge {
+                width: 100%;
+                min-width: 0;
+                padding: 0.9rem 1rem 0.75rem 1rem;
+            }
+            .reservation-bar {
+                padding: 0.8rem;
+            }
+            .reservation-field {
+                padding: 0.65rem 0.75rem;
+            }
+            .reservation-btn {
+                font-size: 0.98rem;
             }
         }
     </style>
