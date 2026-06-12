@@ -88,27 +88,6 @@
                             margin-top: 0.7rem;
                             font-family: 'Oswald', 'Montserrat', sans-serif;
                         }
-                .circle-sticker {
-                    width: 92px;
-                    height: 92px;
-                    background: #fff;
-                    border-radius: 50%;
-                    box-shadow: 0 2px 16px #D4AF3722, 0 1.5px 8px #0002;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    border: 2.5px solid #D4AF37;
-                }
-                .circle-sticker span {
-                    color: #D4AF37;
-                    font-family: 'Oswald', 'Montserrat', sans-serif;
-                    font-size: 1.01rem;
-                    font-weight: 900;
-                    text-align: center;
-                    letter-spacing: 0.01em;
-                    line-height: 1.15;
-                    padding: 0.2rem 0.1rem;
-                }
         body {
             min-height: 100vh;
             margin: 0;
@@ -190,10 +169,62 @@
             line-height: 1.7;
             letter-spacing: 0.01em;
         }
+        .contact-strip {
+            width: 100%;
+            max-width: 500px;
+            margin: 2.3rem auto 1.8rem auto;
+            padding: 0.95rem 1.1rem;
+            border: 1px solid #D4AF37;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+            text-align: center;
+            box-shadow: 0 1px 8px #0002;
+            backdrop-filter: blur(8px);
+        }
+        .contact-strip strong {
+            color: #D4AF37;
+            font-family: 'Oswald', 'Montserrat', sans-serif;
+            letter-spacing: 0.03em;
+        }
+        .contact-strip a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .contact-strip a:hover {
+            text-decoration: underline;
+        }
+        .location-strip {
+            width: 100%;
+            max-width: 500px;
+            margin: 2.35rem auto 1rem auto;
+            padding: 0.9rem 1.1rem;
+            border: 1px solid #D4AF37;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+            text-align: center;
+            box-shadow: 0 1px 8px #0002;
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.55rem;
+        }
+        .location-strip strong {
+            color: #D4AF37;
+            font-family: 'Oswald', 'Montserrat', sans-serif;
+            letter-spacing: 0.03em;
+        }
+        .location-strip svg {
+            flex: 0 0 auto;
+        }
         .reservation-bar-container {
             width: 100%;
             max-width: 1200px;
-            margin: 2rem auto 0 auto;
+            margin: 3rem auto 0 auto;
             display: flex;
             justify-content: center;
             position: relative;
@@ -203,13 +234,14 @@
         .reservation-bar {
             background: rgba(30, 30, 30, 0.60);
             border-radius: 1.7rem;
-            padding: 1.2rem 2.2rem 1rem 2.2rem;
+            padding: 1.55rem 2.35rem 1.35rem 2.35rem;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 0.85rem;
+            justify-content: center;
+            gap: 0.9rem;
             width: 100%;
-            max-width: 1200px;
+            max-width: 560px;
             box-shadow: 0 8px 32px #000a;
             border: 1px solid #D4AF37;
             backdrop-filter: blur(8px);
@@ -217,53 +249,6 @@
         }
         .reservation-bar:hover {
             box-shadow: 0 12px 48px #D4AF3755, 0 2px 24px #000a;
-        }
-        .reservation-field {
-            display: flex;
-            align-items: center;
-            background: rgba(255,255,255,0.09);
-            border-radius: 1rem;
-            padding: 0.65rem 1rem;
-            min-width: 180px;
-            flex: 1 1 180px;
-            margin-bottom: 0.2rem;
-            border: 1px solid #D4AF37;
-            box-shadow: 0 1px 4px #0001;
-        }
-        .reservation-icon {
-            margin-right: 0.7rem;
-            color: #D4AF37;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-        }
-        .reservation-label-input {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-        .reservation-label-input label {
-            color: #D4AF37;
-            font-size: 0.93rem;
-            font-weight: 700;
-            margin-bottom: 0.1rem;
-            letter-spacing: 0.01em;
-        }
-        .reservation-label-input input {
-            border: none;
-            background: transparent;
-            color: #fff;
-            font-size: 1.08rem;
-            outline: none;
-            padding: 0.1rem 0;
-            font-family: inherit;
-        }
-        .reservation-label-input input::placeholder {
-            color: #eee;
-            opacity: 0.7;
-        }
-        .reservation-label-input input[type="date"], .reservation-label-input input[type="time"] {
-            color-scheme: dark;
         }
         .reservation-btn {
             display: inline-flex;
@@ -279,7 +264,7 @@
             text-decoration: none;
             box-shadow: 0 2px 12px #D4AF3755;
             transition: background 0.2s, color 0.2s, transform 0.15s;
-            margin-left: auto;
+            margin-left: 0;
             white-space: nowrap;
             min-width: 180px;
         }
@@ -327,9 +312,7 @@
                 min-width: 180px;
                 width: 90%;
             }
-            .floating-reviews,
-            .circle-sticker,
-            .circle-sticker + div[style*="text-align:center"] {
+            .floating-reviews {
                 display: none;
             }
             body {
@@ -357,26 +340,29 @@
                 line-height: 1.5;
                 margin-bottom: 1.35rem;
             }
+            .contact-strip {
+                margin-top: 2.1rem;
+                margin-bottom: 1.15rem;
+                max-width: 420px;
+                padding: 0.85rem 0.95rem;
+                font-size: 0.95rem;
+            }
+            .location-strip {
+                margin-top: 1.9rem;
+                margin-bottom: 0.9rem;
+                max-width: 420px;
+                padding: 0.8rem 0.9rem;
+                font-size: 0.95rem;
+            }
             .reservation-bar-container {
-                margin-top: 1rem;
+                margin-top: 2rem;
                 padding: 0;
             }
             .reservation-bar {
-                padding: 0.9rem;
+                padding: 1.15rem 0.95rem 1rem 0.95rem;
                 border-radius: 1.2rem;
-                gap: 0.7rem;
-            }
-            .reservation-field {
-                width: 100%;
-                min-width: 0;
-                flex: 1 1 100%;
-                padding: 0.7rem 0.85rem;
-            }
-            .reservation-label-input label {
-                font-size: 0.86rem;
-            }
-            .reservation-label-input input {
-                font-size: 1rem;
+                gap: 0.8rem;
+                max-width: 420px;
             }
             .reservation-btn {
                 width: 100%;
@@ -400,6 +386,20 @@
                 font-size: 0.95rem;
                 margin-bottom: 1rem;
             }
+            .contact-strip {
+                margin-top: 1.9rem;
+                margin-bottom: 1rem;
+                max-width: 380px;
+                padding: 0.8rem 0.85rem;
+                font-size: 0.92rem;
+            }
+            .location-strip {
+                margin-top: 1.65rem;
+                margin-bottom: 0.8rem;
+                max-width: 380px;
+                padding: 0.75rem 0.8rem;
+                font-size: 0.92rem;
+            }
             .trust-badges {
                 display: none;
             }
@@ -409,23 +409,12 @@
                 padding: 0.9rem 1rem 0.75rem 1rem;
             }
             .reservation-bar-container {
-                margin-top: 0.7rem;
+                margin-top: 1.4rem;
             }
             .reservation-bar {
-                padding: 0.7rem;
-                gap: 0.55rem;
-            }
-            .reservation-field {
-                padding: 0.55rem 0.7rem;
-            }
-            .reservation-icon {
-                margin-right: 0.5rem;
-            }
-            .reservation-label-input label {
-                font-size: 0.8rem;
-            }
-            .reservation-label-input input {
-                font-size: 0.95rem;
+                padding: 0.95rem 0.8rem 0.85rem 0.8rem;
+                gap: 0.7rem;
+                max-width: 380px;
             }
             .reservation-btn {
                 font-size: 0.95rem;
@@ -450,20 +439,6 @@
             </div>
         </div>
                             
-        <div style="position:absolute;left:2.2rem;top:14.2rem;z-index:21;width:92px;text-align:center;">
-            <span style="font-size:1.01rem;font-weight:900;color:#D4AF37;font-family:'Oswald','Montserrat',sans-serif;letter-spacing:0.01em;">Join Loyalty</span>
-        </div>
-        <div class="circle-sticker" style="position:absolute;left:2.2rem;top:15.5rem;z-index:20;">
-            <span>Unlock<br>Exclusive<br>Benefits</span>
-        </div>
-
-        <!-- Second sticker: Join Elite / Unlock Ultimate Luxury -->
-        <div style="position:absolute;left:2.2rem;top:25.2rem;z-index:21;width:92px;text-align:center;">
-            <span style="font-size:1.01rem;font-weight:900;color:#D4AF37;font-family:'Oswald','Montserrat',sans-serif;letter-spacing:0.01em;">Join Elite</span>
-        </div>
-        <div class="circle-sticker" style="position:absolute;left:2.2rem;top:26.5rem;z-index:20;">
-            <span>Unlock<br>Ultimate<br>Luxury</span>
-        </div>
         <div class="logo-link">
             <img src="Images/Logo.jpg" alt="Premium Eco Rentals Grenada car rental logo" class="logo-img"/>
         </div>
@@ -491,54 +466,18 @@
 
         <div class="reservation-bar-container">
             <div class="reservation-bar">
-                   
-                <div class="reservation-field">
-                    <div class="reservation-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21c-4.418 0-8-5.373-8-10a8 8 0 1116 0c0 4.627-3.582 10-8 10z"/><circle cx="12" cy="11" r="3"/></svg>
-                    </div>
-                    <div class="reservation-label-input">
-                        <label>Pickup Location</label>
-                        <input type="text" placeholder="Enter city or airport" />
-                    </div>
-                </div>
-                <div class="reservation-field">
-                    <div class="reservation-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" stroke-width="2" stroke="currentColor" fill="none"/><path d="M16 2v4M8 2v4M3 10h18" stroke-width="2" stroke="currentColor" fill="none"/></svg>
-                    </div>
-                    <div class="reservation-label-input">
-                        <label>Pickup Date</label>
-                        <input type="date" />
-                    </div>
-                </div>
-                <div class="reservation-field">
-                    <div class="reservation-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10" stroke-width="2" stroke="currentColor" fill="none"/><path d="M12 6v6l4 2" stroke-width="2" stroke="currentColor" fill="none"/></svg>
-                    </div>
-                    <div class="reservation-label-input">
-                        <label>Pickup Time</label>
-                        <input type="time" />
-                    </div>
-                </div>
-                <div class="reservation-field">
-                    <div class="reservation-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" stroke-width="2" stroke="currentColor" fill="none"/><path d="M16 2v4M8 2v4M3 10h18" stroke-width="2" stroke="currentColor" fill="none"/></svg>
-                    </div>
-                    <div class="reservation-label-input">
-                        <label>Return Date</label>
-                        <input type="date" />
-                    </div>
-                </div>
-                <div class="reservation-field">
-                    <div class="reservation-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10" stroke-width="2" stroke="currentColor" fill="none"/><path d="M12 6v6l4 2" stroke-width="2" stroke="currentColor" fill="none"/></svg>
-                    </div>
-                    <div class="reservation-label-input">
-                        <label>Return Time</label>
-                        <input type="time" />
-                    </div>
-                </div>
                 <a href="https://premiumecorentals2.us5.hqrentals.app/public/car-rental/reservations/step1?new=1&brand=blsea0wm-snln-xg0c-9xxu-esymdste3acy" target="_blank" class="reservation-btn">Make A Reservation</a>
             </div>
+        </div>
+        <div class="location-strip">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 21s6-5.1 6-10.2A6 6 0 1 0 6 10.8C6 15.9 12 21 12 21Z" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="12" cy="10.8" r="2.2" stroke="#D4AF37" stroke-width="1.8"/>
+            </svg>
+            <div><strong>Location:</strong> Point Salines, Grenada</div>
+        </div>
+        <div class="contact-strip">
+            <strong>Direct Calls / WhatsApp:</strong> <a href="tel:+14734057368">+1 473 405 7368</a>
         </div>
     </div>
 </body>
