@@ -234,6 +234,124 @@
             text-align: center;
             font-family: 'Roboto', 'Montserrat', sans-serif;
         }
+        #google-reviews-section {
+            width: 100%;
+            max-width: 780px;
+            margin: 1.7rem auto 0 auto;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid #D4AF37;
+            border-radius: 1rem;
+            box-shadow: 0 1px 10px #0003;
+            backdrop-filter: blur(8px);
+            padding: 1.1rem;
+        }
+        .google-heading {
+            margin: 0 0 0.75rem 0;
+            text-align: center;
+            font-family: 'Oswald', 'Montserrat', sans-serif;
+            letter-spacing: 0.04em;
+            font-size: 1.35rem;
+            color: #fff;
+        }
+        .google-word span:nth-child(1) { color: #4285F4; }
+        .google-word span:nth-child(2) { color: #EA4335; }
+        .google-word span:nth-child(3) { color: #FBBC05; }
+        .google-word span:nth-child(4) { color: #4285F4; }
+        .google-word span:nth-child(5) { color: #34A853; }
+        .google-word span:nth-child(6) { color: #EA4335; }
+        .review-carousel {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            border-radius: 0.9rem;
+            background: rgba(0,0,0,0.18);
+            margin-bottom: 1rem;
+        }
+        .review-track {
+            display: flex;
+            transition: transform 0.35s ease;
+            will-change: transform;
+        }
+        .review-slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            padding: 1rem 1.1rem 0.8rem 1.1rem;
+            color: #fff;
+        }
+        .review-stars {
+            color: #FBBC04;
+            font-size: 1rem;
+            margin-bottom: 0.45rem;
+        }
+        .review-text {
+            margin: 0 0 0.6rem 0;
+            line-height: 1.55;
+            font-size: 0.98rem;
+        }
+        .review-author {
+            margin: 0;
+            color: #D4AF37;
+            font-family: 'Oswald', 'Montserrat', sans-serif;
+            letter-spacing: 0.02em;
+        }
+        .review-source {
+            display: inline-block;
+            margin-top: 0.45rem;
+            color: #fff;
+            text-decoration: underline;
+            font-size: 0.9rem;
+        }
+        .carousel-controls {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+        }
+        .carousel-btn {
+            pointer-events: auto;
+            background: rgba(0,0,0,0.45);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.35);
+            width: 34px;
+            height: 34px;
+            border-radius: 999px;
+            cursor: pointer;
+            margin: 0 0.45rem;
+        }
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.45rem;
+            margin: 0.55rem 0 0.95rem 0;
+        }
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255,255,255,0.45);
+            cursor: pointer;
+        }
+        .carousel-dot.active {
+            background: #D4AF37;
+        }
+        .google-map-embed {
+            width: 100%;
+            height: 420px;
+            border: 0;
+            border-radius: 0.7rem;
+        }
+        .google-listing-link {
+            text-align: center;
+            margin: 0.85rem 0 0.25rem 0;
+        }
+        .google-listing-link a {
+            color: #fff;
+        }
         @media (max-width: 700px) {
             .trust-badges {
                 flex-direction: column;
@@ -304,6 +422,16 @@
                 padding: 0.95rem 1rem;
                 font-size: 1rem;
             }
+            #google-reviews-section {
+                max-width: 420px;
+                padding: 0.9rem;
+            }
+            .google-heading {
+                font-size: 1.18rem;
+            }
+            .google-map-embed {
+                height: 360px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -361,6 +489,13 @@
                 width: 82px;
                 height: 56px;
             }
+            #google-reviews-section {
+                max-width: 380px;
+                padding: 0.8rem;
+            }
+            .google-map-embed {
+                height: 320px;
+            }
         }
     </style>
 </head>
@@ -409,19 +544,112 @@
             <strong>Direct Calls / WhatsApp:</strong> <a href="tel:+14734057368">+1 473 405 7368</a>
         </div>
         <div id="google-reviews-section">
-            <h3>Google Reviews</h3>
+            <h3 class="google-heading"><span class="google-word"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span> Reviews</h3>
+
+            <div class="review-carousel" id="review-carousel">
+                <div class="review-track" id="review-track">
+                    <article class="review-slide">
+                        <p class="review-stars">★★★★★</p>
+                        <p class="review-text">"I highly recommend premium rentals! My experience from the start was exceptional... complimentary gifts upon arrival and superb customer service."</p>
+                        <p class="review-author">- Hon. Nasha D Marshall</p>
+                        <a class="review-source" href="https://maps.google.com/?cid=11332491426425774902" target="_blank" rel="noopener">Source: Google Reviews</a>
+                    </article>
+                    <article class="review-slide">
+                        <p class="review-stars">★★★★★</p>
+                        <p class="review-text">"Fantastic car rental experience... professional, friendly, and ready to answer any questions. The rental process was fast and efficient."</p>
+                        <p class="review-author">- Aidar Karimush</p>
+                        <a class="review-source" href="https://maps.google.com/?cid=11332491426425774902" target="_blank" rel="noopener">Source: Google Reviews</a>
+                    </article>
+                    <article class="review-slide">
+                        <p class="review-stars">★★★★★</p>
+                        <p class="review-text">"Excellent service. Very easy communication... A brand new car was delivered next day at a very reasonable price. First class service."</p>
+                        <p class="review-author">- stef draper</p>
+                        <a class="review-source" href="https://maps.google.com/?cid=11332491426425774902" target="_blank" rel="noopener">Source: Google Reviews</a>
+                    </article>
+                </div>
+                <div class="carousel-controls">
+                    <button class="carousel-btn" id="carousel-prev" type="button" aria-label="Previous review">&#10094;</button>
+                    <button class="carousel-btn" id="carousel-next" type="button" aria-label="Next review">&#10095;</button>
+                </div>
+            </div>
+            <div class="carousel-dots" id="carousel-dots">
+                <button class="carousel-dot active" type="button" aria-label="Review 1"></button>
+                <button class="carousel-dot" type="button" aria-label="Review 2"></button>
+                <button class="carousel-dot" type="button" aria-label="Review 3"></button>
+            </div>
+
             <iframe
                 title="Premium Eco Rentals Google Maps"
-                width="100%"
-                height="420"
-                style="border:0;"
+                class="google-map-embed"
                 loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade"
                 src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCDUDTY58N7GOsr8H4SbBJRIb1wf2MmSQY&q=place_id:ChIJUw78QNchOIwRNqNEBOkYRZ0">
             </iframe>
-            <p><a href="https://maps.google.com/?cid=11332491426425774902" target="_blank" rel="noopener">Open full Google listing</a></p>
+            <p class="google-listing-link"><a href="https://maps.google.com/?cid=11332491426425774902" target="_blank" rel="noopener">Open full Google listing</a></p>
         </div>
     </div>
+    <script>
+        (function initReviewCarousel() {
+            const track = document.getElementById("review-track");
+            const slides = track ? Array.from(track.children) : [];
+            const dotsWrap = document.getElementById("carousel-dots");
+            const dots = dotsWrap ? Array.from(dotsWrap.children) : [];
+            const prevBtn = document.getElementById("carousel-prev");
+            const nextBtn = document.getElementById("carousel-next");
+
+            if (!track || slides.length === 0 || !prevBtn || !nextBtn) {
+                return;
+            }
+
+            let index = 0;
+            let timerId = null;
+
+            function render() {
+                track.style.transform = "translateX(-" + (index * 100) + "%)";
+                dots.forEach(function(dot, i) {
+                    dot.classList.toggle("active", i === index);
+                });
+            }
+
+            function startAuto() {
+                stopAuto();
+                timerId = window.setInterval(function() {
+                    index = (index + 1) % slides.length;
+                    render();
+                }, 5000);
+            }
+
+            function stopAuto() {
+                if (timerId) {
+                    window.clearInterval(timerId);
+                    timerId = null;
+                }
+            }
+
+            prevBtn.addEventListener("click", function() {
+                index = (index - 1 + slides.length) % slides.length;
+                render();
+                startAuto();
+            });
+
+            nextBtn.addEventListener("click", function() {
+                index = (index + 1) % slides.length;
+                render();
+                startAuto();
+            });
+
+            dots.forEach(function(dot, i) {
+                dot.addEventListener("click", function() {
+                    index = i;
+                    render();
+                    startAuto();
+                });
+            });
+
+            render();
+            startAuto();
+        })();
+    </script>
 </body>
 
 </html>
