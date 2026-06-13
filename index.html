@@ -238,20 +238,21 @@
             width: 100%;
             max-width: 780px;
             margin: 1.7rem auto 0 auto;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid #D4AF37;
+            background: linear-gradient(145deg, rgba(255,255,255,0.12) 0%, rgba(212,175,55,0.14) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.85);
             border-radius: 1rem;
-            box-shadow: 0 1px 10px #0003;
-            backdrop-filter: blur(8px);
-            padding: 1.1rem;
+            box-shadow: 0 14px 34px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.25);
+            backdrop-filter: blur(12px);
+            padding: 1.2rem;
         }
         .google-heading {
             margin: 0 0 0.75rem 0;
             text-align: center;
             font-family: 'Oswald', 'Montserrat', sans-serif;
-            letter-spacing: 0.04em;
-            font-size: 1.35rem;
+            letter-spacing: 0.055em;
+            font-size: 1.4rem;
             color: #fff;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.35);
         }
         .google-word span:nth-child(1) { color: #4285F4; }
         .google-word span:nth-child(2) { color: #EA4335; }
@@ -262,9 +263,10 @@
         .review-carousel {
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(212, 175, 55, 0.5);
-            border-radius: 0.9rem;
-            background: rgba(0,0,0,0.18);
+            border: 1px solid rgba(212, 175, 55, 0.62);
+            border-radius: 1rem;
+            background: linear-gradient(155deg, rgba(255,255,255,0.09), rgba(212,175,55,0.12));
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.24), 0 8px 24px rgba(0,0,0,0.24);
             margin-bottom: 1rem;
         }
         .review-track {
@@ -275,31 +277,40 @@
         .review-slide {
             min-width: 100%;
             box-sizing: border-box;
-            padding: 1rem 1.1rem 0.8rem 1.1rem;
+            padding: 1.05rem 1.15rem 0.95rem 1.15rem;
             color: #fff;
         }
         .review-stars {
             color: #FBBC04;
-            font-size: 1rem;
-            margin-bottom: 0.45rem;
+            font-size: 1.06rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 12px rgba(251,188,4,0.38);
         }
         .review-text {
             margin: 0 0 0.6rem 0;
-            line-height: 1.55;
-            font-size: 0.98rem;
+            line-height: 1.6;
+            font-size: 1rem;
+            color: #fffef9;
         }
         .review-author {
             margin: 0;
-            color: #D4AF37;
+            color: #f0cb6a;
             font-family: 'Oswald', 'Montserrat', sans-serif;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.03em;
+            font-size: 0.98rem;
         }
         .review-source {
             display: inline-block;
-            margin-top: 0.45rem;
-            color: #fff;
-            text-decoration: underline;
+            margin-top: 0.5rem;
+            color: #fff9db;
+            text-decoration: none;
             font-size: 0.9rem;
+            border-bottom: 1px solid rgba(255, 249, 219, 0.55);
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .review-source:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.85);
         }
         .carousel-controls {
             position: absolute;
@@ -313,14 +324,20 @@
         }
         .carousel-btn {
             pointer-events: auto;
-            background: rgba(0,0,0,0.45);
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.35);
-            width: 34px;
-            height: 34px;
+            background: linear-gradient(160deg, rgba(212,175,55,0.9), rgba(169,122,28,0.9));
+            color: #201505;
+            border: 1px solid rgba(255,233,170,0.8);
+            width: 36px;
+            height: 36px;
             border-radius: 999px;
             cursor: pointer;
             margin: 0 0.45rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            transition: transform 0.18s ease, box-shadow 0.2s ease;
+        }
+        .carousel-btn:hover {
+            transform: scale(1.06);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.38);
         }
         .carousel-dots {
             display: flex;
@@ -329,15 +346,18 @@
             margin: 0.55rem 0 0.95rem 0;
         }
         .carousel-dot {
-            width: 8px;
+            width: 9px;
             height: 8px;
             border-radius: 50%;
             border: none;
-            background: rgba(255,255,255,0.45);
+            background: rgba(255,255,255,0.36);
             cursor: pointer;
+            transition: all 0.2s ease;
         }
         .carousel-dot.active {
             background: #D4AF37;
+            width: 20px;
+            border-radius: 999px;
         }
         .google-map-embed {
             width: 100%;
@@ -350,7 +370,13 @@
             margin: 0.85rem 0 0.25rem 0;
         }
         .google-listing-link a {
+            color: #fff8d8;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,248,216,0.6);
+        }
+        .google-listing-link a:hover {
             color: #fff;
+            border-bottom-color: rgba(255,255,255,0.9);
         }
         @media (max-width: 700px) {
             .trust-badges {
