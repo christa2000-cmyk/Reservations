@@ -529,6 +529,7 @@
     </div>
     <script>
         const GOOGLE_API_KEY = "AIzaSyCDUDTY58N7GOsr8H4SbBJRIb1wf2MmSQY";
+        const GOOGLE_PLACE_ID = "ChIJUw78QNchOIwRNqNEBOkYRZ0";
         const GOOGLE_BUSINESS_QUERY = "Car rentals Grenada - Premium Economy Rentals; 3 minutes from Maurice Bishop International Airport, Grenada";
         const GOOGLE_BUSINESS_QUERIES = [
             "Premium Eco Rentals Grenada",
@@ -641,7 +642,28 @@
             try {
                 const placesLib = await google.maps.importLibrary("places");
                 const PlaceClass = placesLib && placesLib.Place;
-                if (!PlaceClass || !PlaceClass.searchByText) {
+                if (!PlaceClass) {
+                    return false;
+                }
+
+                // Prefer direct Place ID lookup for stable matching.
+                if (GOOGLE_PLACE_ID) {
+                    try {
+                        const placeById = new PlaceClass({ id: GOOGLE_PLACE_ID });
+                        await placeById.fetchFields({
+                            fields: ["displayName", "rating", "userRatingCount", "reviews", "googleMapsURI"]
+                        });
+
+                        if (Array.isArray(placeById.reviews) && placeById.reviews.length) {
+                            renderGoogleReviews(placeById);
+                            return true;
+                        }
+                    } catch (err) {
+                        // Fall through to text-based search fallback below.
+                    }
+                }
+
+                if (!PlaceClass.searchByText) {
                     return false;
                 }
 
@@ -681,6 +703,26 @@
                 }
 
                 const service = new google.maps.places.PlacesService(document.createElement("div"));
+
+                if (GOOGLE_PLACE_ID) {
+                    service.getDetails({
+                        placeId: GOOGLE_PLACE_ID,
+                        fields: ["name", "rating", "user_ratings_total", "reviews", "url"]
+                    }, function(details, detailsStatus) {
+                        if (detailsStatus === google.maps.places.PlacesServiceStatus.OK && details) {
+                            renderGoogleReviews(details);
+                            resolve(true);
+                            return;
+                        }
+
+                        runQueryFallback();
+                    });
+                    return;
+                }
+
+                runQueryFallback();
+
+                function runQueryFallback() {
                 let queryIndex = 0;
 
                 function runNextQuery() {
@@ -715,6 +757,7 @@
                 }
 
                 runNextQuery();
+                }
             });
         }
 
