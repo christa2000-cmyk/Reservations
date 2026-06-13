@@ -129,26 +129,24 @@
             text-decoration: underline;
         }
         .location-strip {
-            width: 100%;
-            max-width: 500px;
-            margin: 2.35rem auto 1rem auto;
-            padding: 0.9rem 1.1rem;
-            border: 1px solid #D4AF37;
-            border-radius: 999px;
-            background: rgba(255,255,255,0.08);
+            position: absolute;
+            top: 1rem;
+            left: 1.2rem;
+            margin: 0;
+            padding: 0;
+            border: none;
+            border-radius: 0;
+            background: transparent;
             color: #fff;
-            text-align: center;
-            box-shadow: 0 1px 8px #0002;
-            backdrop-filter: blur(8px);
+            text-align: left;
+            box-shadow: none;
+            backdrop-filter: none;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 0.55rem;
-        }
-        .location-strip strong {
-            color: #D4AF37;
-            font-family: 'Oswald', 'Montserrat', sans-serif;
-            letter-spacing: 0.03em;
+            justify-content: flex-start;
+            gap: 0.45rem;
+            z-index: 4;
+            font-size: 0.98rem;
         }
         .location-strip svg {
             flex: 0 0 auto;
@@ -425,11 +423,9 @@
                 font-size: 0.95rem;
             }
             .location-strip {
-                margin-top: 1.9rem;
-                margin-bottom: 0.9rem;
-                max-width: 420px;
-                padding: 0.8rem 0.9rem;
-                font-size: 0.95rem;
+                top: 0.65rem;
+                left: 0.8rem;
+                font-size: 0.93rem;
             }
             .reservation-bar-container {
                 margin-top: 2rem;
@@ -485,11 +481,9 @@
                 font-size: 0.92rem;
             }
             .location-strip {
-                margin-top: 1.65rem;
-                margin-bottom: 0.8rem;
-                max-width: 380px;
-                padding: 0.75rem 0.8rem;
-                font-size: 0.92rem;
+                top: 0.5rem;
+                left: 0.6rem;
+                font-size: 0.88rem;
             }
             .trust-badges {
                 display: none;
@@ -564,7 +558,7 @@
                 <path d="M12 21s6-5.1 6-10.2A6 6 0 1 0 6 10.8C6 15.9 12 21 12 21Z" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
                 <circle cx="12" cy="10.8" r="2.2" stroke="#D4AF37" stroke-width="1.8"/>
             </svg>
-            <div><strong>Location:</strong> Point Salines, Grenada</div>
+            <div>Points Salines, Grenada</div>
         </div>
         <div class="contact-strip">
             <strong>Direct Calls / WhatsApp:</strong> <a href="tel:+14734057368">+1 473 405 7368</a>
