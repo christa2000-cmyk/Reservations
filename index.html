@@ -530,6 +530,11 @@
     <script>
         const GOOGLE_API_KEY = "AIzaSyCDUDTY58N7GOsr8H4SbBJRIb1wf2MmSQY";
         const GOOGLE_BUSINESS_QUERY = "Car rentals Grenada - Premium Economy Rentals; 3 minutes from Maurice Bishop International Airport, Grenada";
+        const GOOGLE_BUSINESS_QUERIES = [
+            "Premium Eco Rentals Grenada",
+            "+1 473 405 7368",
+            GOOGLE_BUSINESS_QUERY
+        ];
         let reviewsResolved = false;
 
         function escHtml(value) {
@@ -562,6 +567,35 @@
                 '</div>';
         }
 
+        function getReviewText(review) {
+            if (!review) {
+                return "";
+            }
+            if (typeof review.text === "string") {
+                return review.text;
+            }
+            if (review.text && typeof review.text.text === "string") {
+                return review.text.text;
+            }
+            if (review.originalText && typeof review.originalText.text === "string") {
+                return review.originalText.text;
+            }
+            return "";
+        }
+
+        function getReviewAuthor(review) {
+            if (!review) {
+                return "Google User";
+            }
+            if (typeof review.author_name === "string" && review.author_name) {
+                return review.author_name;
+            }
+            if (review.authorAttribution && typeof review.authorAttribution.displayName === "string") {
+                return review.authorAttribution.displayName;
+            }
+            return "Google User";
+        }
+
         function renderGoogleReviews(place) {
             const listEl = document.getElementById("google-reviews-list");
             const metaEl = document.getElementById("google-reviews-meta");
@@ -572,11 +606,11 @@
             reviewsResolved = true;
 
             const rating = Number(place.rating || 0).toFixed(1);
-            const total = Number(place.user_ratings_total || 0);
+            const total = Number(place.user_ratings_total || place.userRatingCount || 0);
             metaEl.textContent = rating + " stars | " + total + " Google reviews";
 
-            if (place.url) {
-                linkEl.href = place.url;
+            if (place.url || place.googleMapsURI) {
+                linkEl.href = place.url || place.googleMapsURI;
             }
 
             const reviews = Array.isArray(place.reviews) ? place.reviews.slice(0, 3) : [];
@@ -587,8 +621,8 @@
 
             listEl.innerHTML = reviews.map(function(review) {
                 const ratingStars = starsForRating(review.rating);
-                const text = escHtml(review.text || "");
-                const author = escHtml(review.author_name || "Google User");
+                const text = escHtml(getReviewText(review));
+                const author = escHtml(getReviewAuthor(review));
                 return (
                     '<div class="review">' +
                     '<span class="stars">' + ratingStars + '</span>' +
@@ -599,31 +633,108 @@
             }).join("");
         }
 
-        function initGoogleReviewsWidget() {
+        async function tryModernPlacesApi() {
+            if (!window.google || !google.maps || !google.maps.importLibrary) {
+                return false;
+            }
+
+            try {
+                const placesLib = await google.maps.importLibrary("places");
+                const PlaceClass = placesLib && placesLib.Place;
+                if (!PlaceClass || !PlaceClass.searchByText) {
+                    return false;
+                }
+
+                let selectedPlace = null;
+                for (let i = 0; i < GOOGLE_BUSINESS_QUERIES.length; i += 1) {
+                    const query = GOOGLE_BUSINESS_QUERIES[i];
+                    const result = await PlaceClass.searchByText({
+                        textQuery: query,
+                        fields: ["id", "displayName", "formattedAddress", "googleMapsURI"]
+                    });
+
+                    if (result && Array.isArray(result.places) && result.places.length) {
+                        selectedPlace = result.places[0];
+                        break;
+                    }
+                }
+
+                if (!selectedPlace) {
+                    return false;
+                }
+
+                await selectedPlace.fetchFields({
+                    fields: ["displayName", "rating", "userRatingCount", "reviews", "googleMapsURI"]
+                });
+                renderGoogleReviews(selectedPlace);
+                return true;
+            } catch (err) {
+                return false;
+            }
+        }
+
+        function tryLegacyPlacesService() {
+            return new Promise(function(resolve) {
+                if (!window.google || !google.maps || !google.maps.places) {
+                    resolve(false);
+                    return;
+                }
+
+                const service = new google.maps.places.PlacesService(document.createElement("div"));
+                let queryIndex = 0;
+
+                function runNextQuery() {
+                    if (queryIndex >= GOOGLE_BUSINESS_QUERIES.length) {
+                        resolve(false);
+                        return;
+                    }
+
+                    const query = GOOGLE_BUSINESS_QUERIES[queryIndex];
+                    queryIndex += 1;
+
+                    service.textSearch({ query: query }, function(results, status) {
+                        if (status !== google.maps.places.PlacesServiceStatus.OK || !results || !results.length) {
+                            runNextQuery();
+                            return;
+                        }
+
+                        const place = results[0];
+                        service.getDetails({
+                            placeId: place.place_id,
+                            fields: ["name", "rating", "user_ratings_total", "reviews", "url"]
+                        }, function(details, detailsStatus) {
+                            if (detailsStatus !== google.maps.places.PlacesServiceStatus.OK || !details) {
+                                runNextQuery();
+                                return;
+                            }
+
+                            renderGoogleReviews(details);
+                            resolve(true);
+                        });
+                    });
+                }
+
+                runNextQuery();
+            });
+        }
+
+        async function initGoogleReviewsWidget() {
             if (!window.google || !google.maps || !google.maps.places) {
                 showReviewsError("Google Reviews could not be initialized.");
                 return;
             }
 
-            const service = new google.maps.places.PlacesService(document.createElement("div"));
-            service.textSearch({ query: GOOGLE_BUSINESS_QUERY }, function(results, status) {
-                if (status !== google.maps.places.PlacesServiceStatus.OK || !results || !results.length) {
-                    showReviewsError("Business lookup failed. Use the Google link below.");
-                    return;
-                }
+            const modernOk = await tryModernPlacesApi();
+            if (modernOk) {
+                return;
+            }
 
-                const place = results[0];
-                service.getDetails({
-                    placeId: place.place_id,
-                    fields: ["name", "rating", "user_ratings_total", "reviews", "url"]
-                }, function(details, detailsStatus) {
-                    if (detailsStatus !== google.maps.places.PlacesServiceStatus.OK || !details) {
-                        showReviewsError("Could not load review details. Use the Google link below.");
-                        return;
-                    }
-                    renderGoogleReviews(details);
-                });
-            });
+            const legacyOk = await tryLegacyPlacesService();
+            if (legacyOk) {
+                return;
+            }
+
+            showReviewsError("Business lookup failed. Use the Google link below.");
         }
 
         function loadGoogleMapsApi() {
@@ -641,7 +752,7 @@
             const script = document.createElement("script");
             script.async = true;
             script.defer = true;
-            script.src = "https://maps.googleapis.com/maps/api/js?key=" + GOOGLE_API_KEY + "&libraries=places&callback=initGoogleReviewsWidget";
+            script.src = "https://maps.googleapis.com/maps/api/js?key=" + GOOGLE_API_KEY + "&libraries=places&v=beta&loading=async&callback=initGoogleReviewsWidget";
             script.onerror = function() {
                 showReviewsError("Google script failed to load. Use the Google link below.");
             };
