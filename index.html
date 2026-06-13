@@ -9,108 +9,6 @@
     <title>Make A Reservation</title>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-                            .floating-reviews {
-                                position: static;
-                                width: 100%;
-                                max-width: 500px;
-                                background: rgba(255,255,255,0.13);
-                                border-radius: 1.3rem;
-                                box-shadow: 0 2px 24px #0002, 0 1.5px 8px #D4AF3722;
-                                border: 1.5px solid #D4AF37;
-                                padding: 1.3rem 1.3rem 1.1rem 1.3rem;
-                                z-index: 30;
-                                backdrop-filter: blur(7px);
-                                margin: 1.35rem auto 0 auto;
-                            }
-                            .floating-reviews .reviews-title {
-                                font-family: 'Oswald', 'Montserrat', sans-serif;
-                                font-size: 1.18rem;
-                                font-weight: 900;
-                                color: #D4AF37;
-                                margin-bottom: 0.7rem;
-                                letter-spacing: 0.03em;
-                                text-align: left;
-                            }
-                            .floating-reviews .review {
-                                background: rgba(255,255,255,0.18);
-                                border-radius: 1.1rem;
-                                padding: 0.8rem 1.1rem 0.7rem 1.1rem;
-                                box-shadow: 0 1px 8px #D4AF3722;
-                                border: 1px solid #D4AF37;
-                                color: #fff;
-                                font-family: 'Montserrat', 'Roboto', sans-serif;
-                                font-size: 0.99rem;
-                                margin-bottom: 0.7rem;
-                            }
-                            .floating-reviews .stars {
-                                color: #FFD700;
-                                font-size: 1.05rem;
-                                margin-bottom: 0.2rem;
-                                display: block;
-                            }
-                            .floating-reviews .reviewer {
-                                color: #D4AF37;
-                                font-weight: 700;
-                                font-size: 0.97rem;
-                                margin-top: 0.5rem;
-                                font-family: 'Oswald', 'Montserrat', sans-serif;
-                            }
-                            .floating-reviews .google-meta {
-                                color: #ffffffcc;
-                                font-family: 'Montserrat', 'Roboto', sans-serif;
-                                font-size: 0.9rem;
-                                margin-bottom: 0.55rem;
-                            }
-                            .floating-reviews .google-link {
-                                color: #D4AF37;
-                                text-decoration: none;
-                                font-family: 'Oswald', 'Montserrat', sans-serif;
-                                font-size: 0.92rem;
-                                letter-spacing: 0.03em;
-                                display: inline-block;
-                                margin-top: 0.25rem;
-                            }
-                            .floating-reviews .google-link:hover {
-                                text-decoration: underline;
-                            }
-                            .floating-reviews .loading-msg {
-                                color: #ffffffd1;
-                                font-size: 0.93rem;
-                                font-family: 'Montserrat', 'Roboto', sans-serif;
-                            }
-                            @media (max-width: 900px) {
-                                .floating-reviews {
-                                    position: static;
-                                    width: 100%;
-                                    margin-bottom: 1.2rem;
-                                }
-                            }
-                    
-                        .review {
-                            background: rgba(255,255,255,0.18);
-                            border-radius: 1.1rem;
-                            padding: 1.1rem 1.5rem 1rem 1.5rem;
-                            box-shadow: 0 1px 8px #D4AF3722;
-                            border: 1px solid #D4AF37;
-                            color: #fff;
-                            font-family: 'Montserrat', 'Roboto', sans-serif;
-                            font-size: 1.08rem;
-                            position: relative;
-                            
-                        }
-                        .review .stars {
-                            color: #FFD700;
-                            font-size: 1.15rem;
-                            margin-bottom: 0.3rem;
-                            display: block;
-                        }
-                        .review .reviewer {
-                            color: #D4AF37;
-                            font-weight: 700;
-                            font-size: 1.01rem;
-                            margin-top: 0.7rem;
-                            font-family: 'Oswald', 'Montserrat', sans-serif;
-                        }
         body {
             min-height: 100vh;
             margin: 0;
@@ -346,10 +244,6 @@
                 min-width: 180px;
                 width: 90%;
             }
-            .floating-reviews {
-                max-width: 420px;
-                margin-top: 1.1rem;
-            }
             body {
                 background-attachment: scroll;
             }
@@ -514,17 +408,13 @@
         <div class="contact-strip">
             <strong>Direct Calls / WhatsApp:</strong> <a href="tel:+14734057368">+1 473 405 7368</a>
         </div>
-        <div class="floating-reviews">
-            <div class="reviews-title">Google Reviews</div>
-            <div class="google-meta" id="google-reviews-meta">Loading latest reviews...</div>
+        <div id="google-reviews-section">
+            <h3>Google Reviews</h3>
+            <p id="google-reviews-meta">Loading latest reviews...</p>
             <div id="google-reviews-list">
-                <div class="review">
-                    <span class="stars">★★★★★</span>
-                    <span class="loading-msg">Fetching authentic customer feedback from Google...</span>
-                    <div class="reviewer">— Premium Eco Rentals</div>
-                </div>
+                <p>Fetching authentic customer feedback from Google...</p>
             </div>
-            <a id="google-reviews-link" class="google-link" href="https://g.page/r/CTajRATpGEWdEBM/review" target="_blank" rel="noopener">Leave a review on Google</a>
+            <p><a id="google-reviews-link" href="https://g.page/r/CTajRATpGEWdEBM/review" target="_blank" rel="noopener">Leave a review on Google</a></p>
         </div>
     </div>
     <script>
@@ -561,11 +451,9 @@
             reviewsResolved = true;
             metaEl.textContent = message;
             listEl.innerHTML =
-                '<div class="review">' +
-                '<span class="stars">★★★★★</span>' +
-                'Reviews are temporarily unavailable. Click the Google link below to view all reviews.' +
-                '<div class="reviewer">— Premium Eco Rentals</div>' +
-                '</div>';
+                '<p>★★★★★</p>' +
+                '<p>Reviews are temporarily unavailable. Click the Google link below to view all reviews.</p>' +
+                '<p>- Premium Eco Rentals</p>';
         }
 
         function getReviewText(review) {
@@ -625,11 +513,11 @@
                 const text = escHtml(getReviewText(review));
                 const author = escHtml(getReviewAuthor(review));
                 return (
-                    '<div class="review">' +
-                    '<span class="stars">' + ratingStars + '</span>' +
-                    text +
-                    '<div class="reviewer">- ' + author + '</div>' +
-                    '</div>'
+                    '<article>' +
+                    '<p>' + ratingStars + '</p>' +
+                    '<p>' + text + '</p>' +
+                    '<p>- ' + author + '</p>' +
+                    '</article>'
                 );
             }).join("");
         }
