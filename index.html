@@ -561,7 +561,7 @@
 
         <div class="reservation-bar-container">
             <div class="reservation-bar">
-                <a href="https://premiumecorentals2.us5.hqrentals.app/public/car-rental/reservations/step1?new=1&brand=blsea0wm-snln-xg0c-9xxu-esymdste3acy" target="_blank" class="reservation-btn">Make A Reservation</a>
+                <a id="hq-booking-btn" href="https://premiumecorentals2.us5.hqrentals.app/public/car-rental/reservations/step1?new=1&brand=blsea0wm-snln-xg0c-9xxu-esymdste3acy" target="_blank" class="reservation-btn">Make A Reservation</a>
             </div>
         </div>
         <div class="location-strip">
@@ -679,6 +679,22 @@
 
             render();
             startAuto();
+        })();
+
+        (function initBookingClickTracking() {
+            const bookingButton = document.getElementById("hq-booking-btn");
+            if (!bookingButton) {
+                return;
+            }
+
+            bookingButton.addEventListener("click", function() {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                    event: "hq_booking_click",
+                    booking_location: "reservations_page",
+                    booking_destination: bookingButton.href
+                });
+            });
         })();
     </script>
 </body>
