@@ -23,6 +23,8 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
     };
     gtag('event', 'conversion', {
         'send_to': 'AW-10816487182/IyVfCI_C3sccEI7-2aUo',
+        'value': 1.0,
+        'currency': 'USD',
         'event_callback': callback
     });
     return false;
@@ -720,6 +722,21 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
                     event: "hq_booking_click",
                     booking_location: "reservations_page",
                     booking_destination: bookingButton.href
+                });
+
+                // Emit common GTM trigger events with conversion metadata.
+                window.dataLayer.push({
+                    event: "begin_checkout",
+                    value: 1,
+                    currency: "USD"
+                });
+
+                window.dataLayer.push({
+                    event: "google_ads_conversion",
+                    conversion_id: "10816487182",
+                    conversion_label: "IyVfCI_C3sccEI7-2aUo",
+                    value: 1,
+                    currency: "USD"
                 });
 
                 // Fire hardcoded Google Ads conversion without changing target="_blank" behavior.
