@@ -721,6 +721,11 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
                     booking_location: "reservations_page",
                     booking_destination: bookingButton.href
                 });
+
+                // Fire hardcoded Google Ads conversion without changing target="_blank" behavior.
+                if (typeof window.gtag_report_conversion === "function") {
+                    window.gtag_report_conversion();
+                }
             });
         })();
     </script>
