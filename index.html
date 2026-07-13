@@ -164,6 +164,17 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
         .contact-strip a:hover {
             text-decoration: underline;
         }
+        .contact-links {
+            display: inline-flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.45rem;
+        }
+        .contact-separator {
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 400;
+        }
         .location-strip {
             position: absolute;
             top: 1rem;
@@ -661,6 +672,12 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
                 padding: 0.8rem 0.85rem;
                 font-size: 0.92rem;
             }
+            .contact-links {
+                display: flex;
+                width: 100%;
+                justify-content: center;
+                gap: 0.38rem;
+            }
             .location-strip {
                 top: 0.5rem;
                 left: 0.6rem;
@@ -799,7 +816,14 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
             <div>Points Salines, Grenada</div>
         </div>
         <div class="contact-strip">
-            <strong>Direct Calls / WhatsApp:</strong> <a href="tel:+14734057368">+1 473 405 7368</a>
+            <strong>Direct Contact:</strong>
+            <span class="contact-links">
+                <a id="contact-call-link" href="tel:+14734057368">Call</a>
+                <span class="contact-separator">|</span>
+                <a id="contact-whatsapp-link" href="https://wa.me/14734057368?text=Hi%20Premium%20Eco%20Rentals,%20I%20need%20help%20with%20my%20reservation." target="_blank" rel="noopener">WhatsApp</a>
+                <span class="contact-separator">|</span>
+                <a id="contact-email-link" href="mailto:premiumecorentals2023@gmail.com?subject=Reservation%20Inquiry">Email</a>
+            </span>
         </div>
         <div id="google-reviews-section">
             <h3 class="google-heading"><span class="google-word"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span> Reviews</h3>
@@ -995,6 +1019,39 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
                     closePopup();
                 }
             });
+        })();
+
+        (function initLeadSignalTracking() {
+            const callLink = document.getElementById("contact-call-link");
+            const whatsappLink = document.getElementById("contact-whatsapp-link");
+            const emailLink = document.getElementById("contact-email-link");
+
+            function pushLeadEvent(eventName, method) {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                    event: eventName,
+                    lead_method: method,
+                    lead_source: "reservations_page"
+                });
+            }
+
+            if (callLink) {
+                callLink.addEventListener("click", function() {
+                    pushLeadEvent("lead_call_click", "call");
+                });
+            }
+
+            if (whatsappLink) {
+                whatsappLink.addEventListener("click", function() {
+                    pushLeadEvent("lead_whatsapp_click", "whatsapp");
+                });
+            }
+
+            if (emailLink) {
+                emailLink.addEventListener("click", function() {
+                    pushLeadEvent("lead_email_click", "email");
+                });
+            }
         })();
     </script>
 </body>
