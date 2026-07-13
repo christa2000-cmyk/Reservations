@@ -1565,6 +1565,7 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
                     pickupLocation: String(formData.get("pickupLocation") || ""),
                     vehicleType: String(formData.get("vehicleType") || ""),
                     source: "Reservations Landing Page",
+                    pageUrl: window.location.href,
                     submittedAt: new Date().toISOString()
                 };
 
@@ -1592,18 +1593,16 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
                         throw new Error("Google Sheets endpoint missing");
                     }
 
-                    const response = await fetch(sheetsEndpoint, {
+                    // Apps Script endpoints often fail CORS checks from static sites.
+                    // Using a simple no-cors POST allows delivery from the landing page.
+                    await fetch(sheetsEndpoint, {
                         method: "POST",
-                        mode: "cors",
+                        mode: "no-cors",
                         headers: {
-                            "Content-Type": "application/json"
+                            "Content-Type": "text/plain;charset=utf-8"
                         },
                         body: JSON.stringify(payload)
                     });
-
-                    if (!response.ok) {
-                        throw new Error("Request failed with status " + response.status);
-                    }
 
                     form.reset();
                     buildDateOptions(pickupDateSelect, "Select pickup date");
@@ -1613,7 +1612,7 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
                         lead_method: "form"
                     });
                 } catch (error) {
-                    setStatus("Setup pending: connect the Google Sheets endpoint to receive requests.", "error");
+                    setStatus("Could not send right now. Please try again or use WhatsApp/Call.", "error");
                     pushEvent("lead_prebook_submit_error", {
                         lead_method: "form"
                     });
