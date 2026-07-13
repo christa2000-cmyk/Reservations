@@ -318,11 +318,55 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
             letter-spacing: 0.03em;
             text-transform: uppercase;
         }
+        .lead-capture-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.6rem;
+        }
+        .lead-capture-toggle {
+            border: 1px solid rgba(212, 175, 55, 0.72);
+            border-radius: 999px;
+            background: rgba(212, 175, 55, 0.14);
+            color: #f6e8b9;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            cursor: pointer;
+            padding: 0.36rem 0.64rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.34rem;
+            transition: filter 0.15s ease, transform 0.15s ease;
+        }
+        .lead-capture-toggle:hover {
+            filter: brightness(1.08);
+            transform: translateY(-1px);
+        }
+        .lead-capture-toggle-arrow {
+            display: inline-block;
+            transition: transform 0.22s ease;
+        }
+        .lead-capture-card.is-open .lead-capture-toggle-arrow {
+            transform: rotate(180deg);
+        }
         .lead-capture-card p {
             margin: 0.2rem 0 0.6rem 0;
             color: #f4f4f4;
             font-size: 0.88rem;
             line-height: 1.35;
+        }
+        .lead-capture-panel {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.28s ease, opacity 0.2s ease, margin-top 0.2s ease;
+        }
+        .lead-capture-card.is-open .lead-capture-panel {
+            max-height: 980px;
+            opacity: 1;
+            margin-top: 0.2rem;
         }
         .lead-capture-form {
             display: grid;
@@ -645,6 +689,13 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
             }
             .lead-capture-card h3 {
                 font-size: 1rem;
+            }
+            .lead-capture-head {
+                align-items: flex-start;
+            }
+            .lead-capture-toggle {
+                font-size: 0.72rem;
+                padding: 0.32rem 0.52rem;
             }
             .lead-capture-card p {
                 font-size: 0.88rem;
@@ -1028,6 +1079,10 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
             .lead-capture-card h3 {
                 font-size: 0.94rem;
             }
+            .lead-capture-toggle {
+                font-size: 0.68rem;
+                letter-spacing: 0.02em;
+            }
             .lead-capture-card p {
                 font-size: 0.84rem;
             }
@@ -1096,7 +1151,7 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
                 </svg>
                 Call
             </a>
-            <a id="comeback-help-availability" class="comeback-help-action comeback-help-availability" href="#lead-capture-card" aria-label="Open quick availability form">Get Availability</a>
+            <a id="comeback-help-availability" class="comeback-help-action comeback-help-availability" href="#lead-capture-card" aria-label="Open quick request form">Open Quick Form</a>
         </div>
     </div>
     <div class="main-content">
@@ -1132,8 +1187,14 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
             </div>
         </div>
         <section class="lead-capture-card" id="lead-capture-card" aria-labelledby="lead-capture-title">
-            <h3 id="lead-capture-title">Prebook / Get Availability</h3>
-            <p>Short on time? Share quick details and we will confirm availability fast.</p>
+            <div class="lead-capture-head">
+                <h3 id="lead-capture-title">Quick Reservation Request</h3>
+                <button type="button" class="lead-capture-toggle" id="lead-capture-toggle" aria-expanded="false" aria-controls="lead-capture-panel">
+                    Check Instant Availability <span class="lead-capture-toggle-arrow">▼</span>
+                </button>
+            </div>
+            <div class="lead-capture-panel" id="lead-capture-panel">
+            <p>We reply in about 30 seconds via WhatsApp or email. Confirm your vehicle now.</p>
             <form id="lead-capture-form" class="lead-capture-form" novalidate>
                 <div class="lead-field">
                     <label for="lead-name">Name</label>
@@ -1177,9 +1238,10 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
                         <option value="No Preference">No Preference</option>
                     </select>
                 </div>
-                <button id="lead-submit-btn" class="lead-submit-btn" type="submit">Get Availability</button>
+                <button id="lead-submit-btn" class="lead-submit-btn" type="submit">Send Request</button>
                 <div id="lead-form-status" class="lead-form-status" aria-live="polite"></div>
             </form>
+            </div>
         </section>
         <div class="contact-strip">
             <strong>Direct Contact:</strong>
@@ -1462,6 +1524,7 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
                     event.preventDefault();
                     closePopup(true);
                     leadCaptureCard.scrollIntoView({ behavior: "smooth", block: "center" });
+                    window.dispatchEvent(new Event("openLeadCaptureForm"));
                     pushEvent("comeback_help_availability_click", {
                         lead_method: "form"
                     });
@@ -1486,6 +1549,9 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
         })();
 
         (function initLeadCaptureForm() {
+            const leadCaptureCard = document.getElementById("lead-capture-card");
+            const leadCaptureToggle = document.getElementById("lead-capture-toggle");
+            const leadCapturePanel = document.getElementById("lead-capture-panel");
             const form = document.getElementById("lead-capture-form");
             const status = document.getElementById("lead-form-status");
             const submitButton = document.getElementById("lead-submit-btn");
@@ -1495,8 +1561,33 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
             // Replace with your deployed Google Apps Script Web App URL.
             const sheetsEndpoint = "https://script.google.com/macros/s/AKfycbzS90qMMnpcdVtoU3mF9Kl7S7GqTXw1VaVcyhFIXNb5qyOFFNU6-BHD-FxV2U1HLHVWzg/exec";
 
-            if (!form || !status || !submitButton || !pickupDateSelect || !returnDateSelect) {
+            if (!leadCaptureCard || !leadCaptureToggle || !leadCapturePanel || !form || !status || !submitButton || !pickupDateSelect || !returnDateSelect) {
                 return;
+            }
+
+            function setPanelState(isOpen, focusFirstField) {
+                leadCaptureCard.classList.toggle("is-open", isOpen);
+                leadCaptureToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+                leadCaptureToggle.firstChild.nodeValue = isOpen ? "Hide Availability Form " : "Check Instant Availability ";
+                if (isOpen && focusFirstField) {
+                    const firstField = form.querySelector("input, select");
+                    if (firstField) {
+                        firstField.focus({ preventScroll: true });
+                    }
+                }
+            }
+
+            leadCaptureToggle.addEventListener("click", function() {
+                const isOpen = leadCaptureCard.classList.contains("is-open");
+                setPanelState(!isOpen, false);
+            });
+
+            window.addEventListener("openLeadCaptureForm", function() {
+                setPanelState(true, true);
+            });
+
+            if (window.location.hash === "#lead-capture-card") {
+                setPanelState(true, false);
             }
 
             function formatDateLabel(dateObj) {
