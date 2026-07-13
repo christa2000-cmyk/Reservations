@@ -697,6 +697,90 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
             line-height: 1.45;
             font-size: 0.94rem;
         }
+        .comeback-help-popup {
+            position: fixed;
+            right: 1rem;
+            bottom: 1rem;
+            width: min(92vw, 340px);
+            border: 1px solid rgba(212, 175, 55, 0.78);
+            border-radius: 0.9rem;
+            background: linear-gradient(155deg, rgba(19, 19, 19, 0.97), rgba(34, 34, 34, 0.97));
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.4);
+            color: #fff;
+            padding: 0.95rem 0.95rem 0.9rem;
+            z-index: 40;
+            opacity: 0;
+            transform: translateY(14px);
+            pointer-events: none;
+            transition: opacity 0.22s ease, transform 0.22s ease;
+        }
+        .comeback-help-popup.is-open {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .comeback-help-close {
+            position: absolute;
+            top: 0.45rem;
+            right: 0.5rem;
+            width: 1.8rem;
+            height: 1.8rem;
+            border: 1px solid rgba(212, 175, 55, 0.65);
+            border-radius: 999px;
+            background: transparent;
+            color: #fff;
+            cursor: pointer;
+            font-size: 1rem;
+            line-height: 1;
+        }
+        .comeback-help-popup h3 {
+            margin: 0 1.9rem 0.32rem 0;
+            color: #D4AF37;
+            font-family: 'Oswald', 'Montserrat', sans-serif;
+            font-size: 1.06rem;
+            letter-spacing: 0.02em;
+        }
+        .comeback-help-popup p {
+            margin: 0 0 0.72rem 0;
+            font-size: 0.92rem;
+            line-height: 1.45;
+            color: #f4f4f4;
+        }
+        .comeback-help-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .comeback-help-action {
+            flex: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.38rem;
+            border-radius: 0.62rem;
+            padding: 0.62rem 0.7rem;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border: 1px solid transparent;
+            transition: filter 0.15s ease, transform 0.15s ease;
+        }
+        .comeback-help-action:hover {
+            filter: brightness(1.07);
+            transform: translateY(-1px);
+        }
+        .comeback-help-action svg {
+            width: 0.95rem;
+            height: 0.95rem;
+        }
+        .comeback-help-call {
+            background: linear-gradient(120deg, #2c6af6, #1850d2);
+            border-color: rgba(98, 145, 255, 0.8);
+        }
+        .comeback-help-whatsapp {
+            background: linear-gradient(120deg, #21bd62, #159949);
+            border-color: rgba(97, 230, 150, 0.8);
+        }
 
         @media (max-width: 480px) {
             .main-content {
@@ -791,6 +875,26 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
             .promo-terms li {
                 font-size: 0.9rem;
             }
+            .comeback-help-popup {
+                left: 0.7rem;
+                right: 0.7rem;
+                bottom: 0.7rem;
+                width: auto;
+                padding: 0.85rem 0.82rem 0.82rem;
+            }
+            .comeback-help-popup h3 {
+                font-size: 1rem;
+            }
+            .comeback-help-popup p {
+                font-size: 0.88rem;
+            }
+            .comeback-help-actions {
+                gap: 0.45rem;
+            }
+            .comeback-help-action {
+                font-size: 0.86rem;
+                padding: 0.56rem 0.55rem;
+            }
         }
     </style>
 </head>
@@ -816,6 +920,26 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
             <div class="promo-actions">
                 <button type="button" class="promo-book-btn" id="promo-book-now">Book Now</button>
             </div>
+        </div>
+    </div>
+    <div class="comeback-help-popup" id="comeback-help-popup" role="dialog" aria-live="polite" aria-labelledby="comeback-help-title">
+        <button type="button" class="comeback-help-close" id="comeback-help-close" aria-label="Close booking help">&times;</button>
+        <h3 id="comeback-help-title">Need help completing your booking?</h3>
+        <p>Our team can quickly assist you with your reservation details.</p>
+        <div class="comeback-help-actions">
+            <a id="comeback-help-whatsapp" class="comeback-help-action comeback-help-whatsapp" href="https://wa.me/14734057368?text=Hi%20Premium%20Eco%20Rentals,%20I%20need%20help%20completing%20my%20booking." target="_blank" rel="noopener" aria-label="Get help on WhatsApp">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M12 3.2a8.8 8.8 0 0 0-7.6 13.3L3 21l4.6-1.3A8.8 8.8 0 1 0 12 3.2Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8.7 9.1c.2-.4.3-.4.6-.4h.5c.2 0 .4.1.5.4l.7 1.6c.1.2 0 .4-.1.6l-.5.6c.5.9 1.3 1.7 2.2 2.2l.6-.5c.2-.1.4-.2.6-.1l1.6.7c.3.1.4.3.4.5v.5c0 .3 0 .4-.4.6-.4.2-.9.3-1.3.2-2-.4-4.8-3.1-5.2-5.2-.1-.4 0-.9.2-1.3Z" fill="currentColor"/>
+                </svg>
+                WhatsApp
+            </a>
+            <a id="comeback-help-call" class="comeback-help-action comeback-help-call" href="tel:+14734057368" aria-label="Call now for booking help">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M6.7 3h2.9c.4 0 .8.3.9.7l.7 3.1c.1.4 0 .8-.3 1.1L9.8 9.8a16.5 16.5 0 0 0 4.4 4.4l1.9-1.8c.3-.3.7-.4 1.1-.3l3.1.7c.4.1.7.5.7.9v2.9c0 .5-.4 1-.9 1-9 0-16.1-7.2-16.1-16.1 0-.5.5-.9 1-.9Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Call
+            </a>
         </div>
     </div>
     <div class="main-content">
@@ -1002,11 +1126,16 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
 
         (function initBookingClickTracking() {
             const bookingButton = document.getElementById("hq-booking-btn");
+            const comebackIntentKey = "booking_click_intent";
+            const comebackExitedKey = "booking_left_for_checkout";
             if (!bookingButton) {
                 return;
             }
 
             bookingButton.addEventListener("click", function() {
+                window.sessionStorage.setItem(comebackIntentKey, "1");
+                window.sessionStorage.removeItem(comebackExitedKey);
+
                 window.dataLayer = window.dataLayer || [];
                 window.dataLayer.push({
                     event: "hq_booking_click",
@@ -1034,6 +1163,106 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
                     window.gtag_report_conversion();
                 }
             });
+
+            document.addEventListener("visibilitychange", function() {
+                if (document.visibilityState !== "hidden") {
+                    return;
+                }
+                if (window.sessionStorage.getItem(comebackIntentKey) === "1") {
+                    window.sessionStorage.setItem(comebackExitedKey, "1");
+                }
+            });
+        })();
+
+        (function initComebackHelpPopup() {
+            const popup = document.getElementById("comeback-help-popup");
+            const closeButton = document.getElementById("comeback-help-close");
+            const whatsappButton = document.getElementById("comeback-help-whatsapp");
+            const callButton = document.getElementById("comeback-help-call");
+            const comebackIntentKey = "booking_click_intent";
+            const comebackExitedKey = "booking_left_for_checkout";
+            const shownKey = "comeback_help_shown";
+            const dismissedKey = "comeback_help_dismissed";
+
+            if (!popup || !closeButton) {
+                return;
+            }
+
+            function pushEvent(eventName, extraData) {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push(Object.assign({
+                    event: eventName,
+                    lead_source: "reservations_page"
+                }, extraData || {}));
+            }
+
+            function closePopup(markDismissed) {
+                popup.classList.remove("is-open");
+                if (markDismissed) {
+                    window.sessionStorage.setItem(dismissedKey, "1");
+                    pushEvent("comeback_help_popup_close", {
+                        comeback_help_state: "dismissed"
+                    });
+                }
+            }
+
+            function shouldShow() {
+                return (
+                    window.sessionStorage.getItem(comebackIntentKey) === "1" &&
+                    window.sessionStorage.getItem(comebackExitedKey) === "1" &&
+                    window.sessionStorage.getItem(shownKey) !== "1" &&
+                    window.sessionStorage.getItem(dismissedKey) !== "1"
+                );
+            }
+
+            function showPopup() {
+                if (!shouldShow()) {
+                    return;
+                }
+                window.sessionStorage.setItem(shownKey, "1");
+                popup.classList.add("is-open");
+                pushEvent("comeback_help_popup_view", {
+                    comeback_help_state: "shown"
+                });
+            }
+
+            closeButton.addEventListener("click", function() {
+                closePopup(true);
+            });
+
+            if (whatsappButton) {
+                whatsappButton.addEventListener("click", function() {
+                    closePopup(true);
+                    pushEvent("comeback_help_whatsapp_click", {
+                        lead_method: "whatsapp"
+                    });
+                });
+            }
+
+            if (callButton) {
+                callButton.addEventListener("click", function() {
+                    closePopup(true);
+                    pushEvent("comeback_help_call_click", {
+                        lead_method: "call"
+                    });
+                });
+            }
+
+            window.addEventListener("keydown", function(event) {
+                if (event.key === "Escape" && popup.classList.contains("is-open")) {
+                    closePopup(true);
+                }
+            });
+
+            document.addEventListener("visibilitychange", function() {
+                if (document.visibilityState === "visible" && shouldShow()) {
+                    window.setTimeout(showPopup, 1500);
+                }
+            });
+
+            if (document.visibilityState === "visible" && shouldShow()) {
+                window.setTimeout(showPopup, 1500);
+            }
         })();
 
         (function initPromoPopup() {
