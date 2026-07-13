@@ -406,6 +406,9 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
         .lead-field-wide {
             grid-column: span 3;
         }
+        .lead-field-hidden {
+            display: none;
+        }
         .lead-submit-btn {
             grid-column: span 3;
             border: none;
@@ -1236,7 +1239,12 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
                         <option value="SUV">SUV</option>
                         <option value="Sedan">Sedan</option>
                         <option value="No Preference">No Preference</option>
+                        <option value="Other">Other (type your preference)</option>
                     </select>
+                </div>
+                <div class="lead-field lead-field-wide lead-field-hidden" id="lead-vehicle-other-wrap">
+                    <label for="lead-vehicle-other">Other Vehicle Preference</label>
+                    <input id="lead-vehicle-other" name="vehicleTypeOther" type="text" placeholder="Example: Kia Sportage, 7-seater SUV, Hybrid" />
                 </div>
                 <button id="lead-submit-btn" class="lead-submit-btn" type="submit">Send Request</button>
                 <div id="lead-form-status" class="lead-form-status" aria-live="polite"></div>
@@ -1557,13 +1565,28 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
             const submitButton = document.getElementById("lead-submit-btn");
             const pickupDateSelect = document.getElementById("lead-pickup-date");
             const returnDateSelect = document.getElementById("lead-return-date");
+            const vehicleTypeSelect = document.getElementById("lead-vehicle-type");
+            const vehicleOtherWrap = document.getElementById("lead-vehicle-other-wrap");
+            const vehicleOtherInput = document.getElementById("lead-vehicle-other");
 
             // Replace with your deployed Google Apps Script Web App URL.
             const sheetsEndpoint = "https://script.google.com/macros/s/AKfycbzS90qMMnpcdVtoU3mF9Kl7S7GqTXw1VaVcyhFIXNb5qyOFFNU6-BHD-FxV2U1HLHVWzg/exec";
 
-            if (!leadCaptureCard || !leadCaptureToggle || !leadCapturePanel || !form || !status || !submitButton || !pickupDateSelect || !returnDateSelect) {
+            if (!leadCaptureCard || !leadCaptureToggle || !leadCapturePanel || !form || !status || !submitButton || !pickupDateSelect || !returnDateSelect || !vehicleTypeSelect || !vehicleOtherWrap || !vehicleOtherInput) {
                 return;
             }
+
+            function syncVehicleOtherField() {
+                const showOther = vehicleTypeSelect.value === "Other";
+                vehicleOtherWrap.classList.toggle("lead-field-hidden", !showOther);
+                vehicleOtherInput.required = showOther;
+                if (!showOther) {
+                    vehicleOtherInput.value = "";
+                }
+            }
+
+            vehicleTypeSelect.addEventListener("change", syncVehicleOtherField);
+            syncVehicleOtherField();
 
             function setPanelState(isOpen, focusFirstField) {
                 leadCaptureCard.classList.toggle("is-open", isOpen);
@@ -1663,6 +1686,11 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
                 payload.tripDates = payload.pickupDate + " to " + payload.returnDate;
                 payload.phone = payload.phone ? "'" + payload.phone : "";
 
+                const vehicleTypeOther = String(formData.get("vehicleTypeOther") || "").trim();
+                if (payload.vehicleType === "Other") {
+                    payload.vehicleType = vehicleTypeOther;
+                }
+
                 if (!payload.name || !payload.phone || !payload.email || !payload.pickupDate || !payload.returnDate || !payload.pickupLocation || !payload.vehicleType) {
                     setStatus("Please complete all fields before submitting.", "error");
                     return;
@@ -1699,6 +1727,7 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
                     form.reset();
                     buildDateOptions(pickupDateSelect, "Select pickup date");
                     buildDateOptions(returnDateSelect, "Select return date");
+                    syncVehicleOtherField();
                     setStatus("Thanks. Your availability request was sent successfully.", "success");
                     pushEvent("lead_prebook_submit_success", {
                         lead_method: "form"
