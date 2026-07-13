@@ -1570,6 +1570,7 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
                 };
 
                 payload.tripDates = payload.pickupDate + " to " + payload.returnDate;
+                payload.phone = payload.phone ? "'" + payload.phone : "";
 
                 if (!payload.name || !payload.phone || !payload.email || !payload.pickupDate || !payload.returnDate || !payload.pickupLocation || !payload.vehicleType) {
                     setStatus("Please complete all fields before submitting.", "error");
